@@ -1,0 +1,32 @@
+<div class="dash__pad-1">
+    <span class="dash__text u-s-m-b-16">Hello, {{user}}</span>
+
+    <ul class="dash__f-list">
+        <li>
+
+            <a class="dash-active" href="{% url 'storefront-dashboard' username %} ">Manage My Account</a>
+        </li>
+        <li>
+            <a href="{% url 'profile-template' username %}">My Profile</a>
+        </li>
+        <li>
+
+            <a href="dash-address-book.html">Address Book</a>
+        </li>
+        <li>
+
+            <a href="dash-track-order.html">Track Order</a>
+        </li>
+        <li>
+            <a href="{% url 'orders-template' username %}">My Orders</a>
+        </li>
+        <li>
+
+            <a href="{% url 'payment-options-template' username %}">My Payment Options</a>
+        </li>
+        <li>
+
+            <a href="{% url 'cancellation-template' username %}">My Returns & Cancellations</a>
+        </li>
+    </ul>
+</div>

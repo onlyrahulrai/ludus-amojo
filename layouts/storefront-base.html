@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load static %}
+{% load extras %}
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{% static username|get_static_path:path|add:'/images/favicon.png' %}" rel="shortcut icon">
+    <title>Ludus - Electronics, Apparel, Computers, Books, DVDs & more</title>
+
+    <!--====== Google Font ======-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
+
+    <!--====== Vendor Css ======-->
+    <link rel="stylesheet" href="{% static username|get_static_path:path|add:'/css/vendor.css' %}">
+
+    <!--====== Utility-Spacing ======-->
+    <link rel="stylesheet" href="{% static username|get_static_path:path|add:'/css/utility.css' %}">
+
+    <!--====== App ======-->
+    <link rel="stylesheet" href="{% static username|get_static_path:path|add:'/css/app.css' %}">
+</head>
+
+<body class="config">
+    <div class="preloader is-active">
+        <div class="preloader__wrap">
+
+            <img class="preloader__img" src="{% static username|get_static_path:path|add:'/images/preloader.png' %}" alt="">
+        </div>
+    </div>
+
+    <!--====== Main App ======-->
+    <div id="app">
+        {% include username|get_template_path:path|add:"/includes/header.html" %}
+
+        {% block content %} {% endblock content %}
+        
+        {% include username|get_template_path:path|add:"/includes/footer.html" %}
+    </div>
+    <!--====== End - Main App ======-->
+
+    <!--====== Vendor Js ======-->
+    <script src="{% static username|get_static_path:path|add:'/js/vendor.js' %}"></script>
+
+    <!--====== jQuery Shopnav plugin ======-->
+    <script src="{% static username|get_static_path:path|add:'/js/jquery.shopnav.js' %}"></script>
+
+    <!--====== App ======-->
+    <script src="{% static username|get_static_path:path|add:'/js/app.js' %}"></script>
+
+    <!--====== Noscript ======-->
+    <noscript>
+        <div class="app-setting">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="app-setting__wrap">
+                            <h1 class="app-setting__h1">JavaScript is disabled in your browser.</h1>
+
+                            <span class="app-setting__text">Please enable JavaScript in your browser or upgrade to a
+                                JavaScript-capable browser.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </noscript>
+</body>
+
+</html>

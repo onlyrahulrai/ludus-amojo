@@ -1,0 +1,19 @@
+.text-center{
+    text-align:center !important;
+}
+
+.d-flex{
+    display: flex !important;
+}
+
+.align-items-center{
+    align-items: center !important;
+}
+
+.flex-column{
+    flex-direction:column !important;
+}
+
+.border{
+    border: 1px solid;
+}
