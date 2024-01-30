@@ -17,10 +17,10 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a></li>
+                                <a href="{% url 'live-view' secret %}">Home</a></li>
                             <li class="is-marked">
 
-                                <a href="dash-my-order.html">My Account</a></li>
+                                <a href="dash-my-order.html">My Orders</a></li>
                         </ul>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
                                                 <span class="dash__w-icon dash__w-icon-style-1"><i class="fas fa-cart-arrow-down"></i></span>
 
-                                                <span class="dash__w-text">4</span>
+                                                <span class="dash__w-text">{{orders.count}}</span>
 
                                                 <span class="dash__w-name">Orders Placed</span></div>
                                         </li>
@@ -84,135 +84,98 @@
                                 <div class="dash__pad-2">
                                     <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
 
-                                    <span class="dash__text u-s-m-b-30">Here you can see all products that have been delivered.</span>
-                                    <form class="m-order u-s-m-b-30">
-                                        <div class="m-order__select-wrapper">
+                                    <span class="dash__text u-s-m-b-14">Here you can see all products that have been delivered.</span>
+                                    {% if orders.count == 0 %}
+                                        <span class="dash__text"><strong>Currently, There are no active orders.</strong></span>
+                                    {% else %}
+                                        <form class="m-order u-s-m-b-30">
+                                            <div class="m-order__select-wrapper">
 
-                                            <label class="u-s-m-r-8" for="my-order-sort">Show:</label><select class="select-box select-box--primary-style" id="my-order-sort">
-                                                <option selected>Last 5 orders</option>
-                                                <option>Last 15 days</option>
-                                                <option>Last 30 days</option>
-                                                <option>Last 6 months</option>
-                                                <option>Orders placed in 2018</option>
-                                                <option>All Orders</option>
-                                            </select></div>
-                                    </form>
-                                    <div class="m-order__list">
-                                        <div class="m-order__get">
-                                            <div class="manage-o__header u-s-m-b-30">
-                                                <div class="dash-l-r">
-                                                    <div>
-                                                        <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                                                        <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
+                                                <label class="u-s-m-r-8" for="my-order-sort">Show:</label><select class="select-box select-box--primary-style" id="my-order-sort">
+                                                    <option selected>Last 5 orders</option>
+                                                    <option>Last 15 days</option>
+                                                    <option>Last 30 days</option>
+                                                    <option>Last 6 months</option>
+                                                    <option>Orders placed in 2018</option>
+                                                    <option>All Orders</option>
+                                                </select></div>
+                                        </form>
+                                        <div class="m-order__list">
+                                            {% for order in orders %}
+                                            <div class="m-order__get" >
+                                                <div class="manage-o__header u-s-m-b-30">
+                                                    <div class="dash-l-r">
+                                                        <div>
+                                                            <div class="manage-o__text-2 u-c-secondary">Order #{{order.order_number}}</div>
+                                                            <div class="manage-o__text u-c-silver">Placed on {{order.created_at}}</div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="dash__link dash__link--brand">
+
+                                                                <a href="dash-manage-order.html">MANAGE</a></div>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <div class="dash__link dash__link--brand">
+                                                </div>
+                                                <a href="{% url 'order-details-view' secret order.id %}">
+                                                    <div class="manage-o__description">
+                                                            <div class="description__container" style="width:75%;">
+                                                                    {% for orderitem in order.items.all %}
+                                                                        {% if forloop.counter <= 2 %}
+                                                                            <div class="description__img-wrap  ml-54" style="display:flex;">
+                                                                                {% if orderitem.product_variant.product.has_multiple_variants %}
+                                                                                    <img class="u-img-fluid" src="{{orderitem.product_variant.featured_image.image.url}}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                                                                                {% else %}
+                                                                                    <img class="u-img-fluid" src="{{orderitem.product_variant.product.featured_image.image.url}}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        {% else %}
+                                                                            <div style="height:90px;margin-left:-24px;">
+                                                                                <div style="position:relative;">
+                                                                                    <div style="height:24px;width:24px;border-radius:50%;padding: 2px;display:flex;align-items:center;justify-content:center;" class="{{order.get_item_statuses|first}}">
+                                                                                        <span>+{{order.items.all.count|add:"-2"}}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    
+                                                                    {% endfor %}
+                                                                
+                                                                <div class="description-title">
+                                                                    {{order.items.first.product_variant.product.title}} 
 
-                                                            <a href="dash-manage-order.html">MANAGE</a></div>
+                                                                    {% if order.items.count > 1 %}
+                                                                        <span style="font-weight:normal;">
+                                                                            +{{order.items.count|add:"-1"}} more items
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        <div class="description__info-wrap">
+                                                            <div style="position:relative;">
+                                                                {% for status in order.get_item_statuses %}
+                                                                    {% if forloop.counter < 2 %}
+                                                                        <span class="manage-o__badge {{status}}" style="width:100%">{{status|get_status}}</span>
+                                                                    {% endif %}
+                                                                {% endfor %}
+
+                                                                {% if order.get_item_statuses|length > 1 %}
+                                                                    <div style="width: 24px;height: 24px;background: #0094448a;border-radius: 50%;color: white;display: flex;align-items: center;justify-content: center;position: absolute;right: -5px;top: -8px;" class="{{order.get_item_statuses|first}}">
+                                                                        <span>+{{order.get_item_statuses|length}}</span>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div>
+                                                                <span class="manage-o__text-2 u-c-silver">Total:
+                                                                    <span class="manage-o__text-2 u-c-secondary">{{username|get_formated_price:order.total_amount}}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </a>
                                             </div>
-                                            <div class="manage-o__description">
-                                                <div class="description__container">
-                                                    <div class="description__img-wrap">
-
-                                                        <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt=""></div>
-                                                    <div class="description-title">Yellow Wireless Headphone</div>
-                                                </div>
-                                                <div class="description__info-wrap">
-                                                    <div>
-
-                                                        <span class="manage-o__badge badge--processing">Processing</span></div>
-                                                    <div>
-
-                                                        <span class="manage-o__text-2 u-c-silver">Quantity:
-
-                                                            <span class="manage-o__text-2 u-c-secondary">1</span></span></div>
-                                                    <div>
-
-                                                        <span class="manage-o__text-2 u-c-silver">Total:
-
-                                                            <span class="manage-o__text-2 u-c-secondary">$16.00</span></span></div>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
-                                        <div class="m-order__get">
-                                            <div class="manage-o__header u-s-m-b-30">
-                                                <div class="dash-l-r">
-                                                    <div>
-                                                        <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                                                        <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="dash__link dash__link--brand">
-
-                                                            <a href="dash-manage-order.html">MANAGE</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="manage-o__description">
-                                                <div class="description__container">
-                                                    <div class="description__img-wrap">
-
-                                                        <img class="u-img-fluid" src="images/product/women/product8.jpg" alt=""></div>
-                                                    <div class="description-title">New Dress D Nice Elegant</div>
-                                                </div>
-                                                <div class="description__info-wrap">
-                                                    <div>
-
-                                                        <span class="manage-o__badge badge--shipped">Shipped</span></div>
-                                                    <div>
-
-                                                        <span class="manage-o__text-2 u-c-silver">Quantity:
-
-                                                            <span class="manage-o__text-2 u-c-secondary">1</span></span></div>
-                                                    <div>
-
-                                                        <span class="manage-o__text-2 u-c-silver">Total:
-
-                                                            <span class="manage-o__text-2 u-c-secondary">$16.00</span></span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-order__get">
-                                            <div class="manage-o__header u-s-m-b-30">
-                                                <div class="dash-l-r">
-                                                    <div>
-                                                        <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                                                        <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="dash__link dash__link--brand">
-
-                                                            <a href="dash-manage-order.html">MANAGE</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="manage-o__description">
-                                                <div class="description__container">
-                                                    <div class="description__img-wrap">
-
-                                                        <img class="u-img-fluid" src="images/product/men/product8.jpg" alt=""></div>
-                                                    <div class="description-title">New Fashion D Nice Elegant</div>
-                                                </div>
-                                                <div class="description__info-wrap">
-                                                    <div>
-
-                                                        <span class="manage-o__badge badge--delivered">Delivered</span></div>
-                                                    <div>
-
-                                                        <span class="manage-o__text-2 u-c-silver">Quantity:
-
-                                                            <span class="manage-o__text-2 u-c-secondary">1</span></span></div>
-                                                    <div>
-
-                                                        <span class="manage-o__text-2 u-c-silver">Total:
-
-                                                            <span class="manage-o__text-2 u-c-secondary">$16.00</span></span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

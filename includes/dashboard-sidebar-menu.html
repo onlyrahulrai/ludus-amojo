@@ -4,29 +4,29 @@
     <ul class="dash__f-list">
         <li>
 
-            <a class="dash-active" href="{% url 'storefront-dashboard' username %} ">Manage My Account</a>
+            <a class="dash-active" href="{% url 'storefront-dashboard' secret %} ">Manage My Account</a>
         </li>
         <li>
-            <a href="{% url 'profile-template' username %}">My Profile</a>
+            <a href="{% url 'profile-template' secret %}">My Profile</a>
         </li>
         <li>
 
-            <a href="dash-address-book.html">Address Book</a>
+            <a href="{% url 'address-book' secret %}">Address Book</a>
         </li>
         <li>
 
             <a href="dash-track-order.html">Track Order</a>
         </li>
         <li>
-            <a href="{% url 'orders-template' username %}">My Orders</a>
+            <a href="{% url 'orders-template' secret %}">My Orders</a>
         </li>
         <li>
 
-            <a href="{% url 'payment-options-template' username %}">My Payment Options</a>
+            <a href="{% url 'payment-options-template' secret %}">My Payment Options</a>
         </li>
         <li>
 
-            <a href="{% url 'cancellation-template' username %}">My Returns & Cancellations</a>
+            <a href="{% url 'cancellation-view' secret %}">My Returns & Cancellations</a>
         </li>
     </ul>
 </div>

@@ -16,7 +16,7 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a>
+                                <a href="{% url 'live-view' secret %}">Home</a>
                             </li>
                             <li class="is-marked">
 
@@ -63,7 +63,7 @@
                                     addresses, view and track your orders in your account and more.</span>
                                 <div class="u-s-m-b-15">
 
-                                    <a class="l-f-o__create-link btn--e-transparent-brand-b-2" href="{% url 'register-template' username %}"
+                                    <a class="l-f-o__create-link btn--e-transparent-brand-b-2" href="{% url 'register-template' secret %}"
                                     >
                                         CREATE AN ACCOUNT
                                     </a>
@@ -89,14 +89,14 @@
                                         </div>
                                     </div>
 
-                                    {% if messages %}
+                                    {% comment %} {% if messages %}
                                         {% for message in messages %}
                                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                                 <strong>Holy guacamole!</strong> You should check in on some of those fields below.
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                             </div>
                                         {% endfor %}
-                                    {% endif %}
+                                    {% endif %} {% endcomment %}
 
                                     <div class="u-s-m-b-30">
                                         <label class="gl-label" for="login-email">E-MAIL *</label>
@@ -134,7 +134,7 @@
                                             </button>
                                         </div>
                                         <div class="u-s-m-b-30">
-                                            <a class="gl-link" href="{% url 'reset-password-view' username %}">Lost Your Password?</a>
+                                            <a class="gl-link" href="{% url 'reset-password-view' secret %}">Lost Your Password?</a>
                                         </div>
                                     </div>
                                     <div class="u-s-m-b-30">

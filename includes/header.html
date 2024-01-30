@@ -2,7 +2,7 @@
 {% load extras %}
 
 <!--====== Main Header ======-->
-<header class="header--style-1 header--box-shadow">
+<header class="header--style-1 header--box-shadow position-relative {% if messages %} overflow-hidden {% endif %}" id="storefront-header" >
 
     <!--====== Nav 1 ======-->
     <nav class="primary-nav primary-nav-wrapper--border">
@@ -13,7 +13,7 @@
 
                 <!--====== Main Logo ======-->
 
-                <a class="main-logo" href="{% url 'live-view' username %}">
+                <a class="main-logo" href="{% url 'live-view' secret %}">
                     <img src="{% static username|get_static_path:path|add:'/images/logo/logo-1.png' %}" alt="" />
                 </a>
                 <!--====== End - Main Logo ======-->
@@ -56,12 +56,12 @@
                                     {% if user.is_authenticated %}
                                         <li>
 
-                                            <a href="{% url "storefront-dashboard" username %}"><i class="fas fa-user-circle u-s-m-r-6"></i>
+                                            <a href="{% url "storefront-dashboard" secret %}"><i class="fas fa-user-circle u-s-m-r-6"></i>
 
                                                 <span>Account</span></a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'logout-view' username %}">
+                                            <a href="{% url 'logout-view' secret %}">
                                                 <i class="fas fa-lock-open u-s-m-r-6"></i>
                                                 <span>Signout</span>
                                             </a>
@@ -69,13 +69,13 @@
                                     {% else %}
                                     <li>
 
-                                        <a href="{% url 'register-template' username %}"><i class="fas fa-user-plus u-s-m-r-6"></i>
+                                        <a href="{% url 'register-template' secret %}"><i class="fas fa-user-plus u-s-m-r-6"></i>
 
                                             <span>Signup</span></a>
                                     </li>
                                     <li>
 
-                                        <a href="{% url 'login-view' username %}"><i class="fas fa-lock u-s-m-r-6"></i>
+                                        <a href="{% url 'login-view' secret %}"><i class="fas fa-lock u-s-m-r-6"></i>
 
                                             <span>Signin</span></a>
                                     </li>
@@ -1148,57 +1148,53 @@
                                 <!--====== Dropdown ======-->
 
                                 <span class="js-menu-toggle"></span>
+                                
                                 <ul style="width:170px">
                                     <li class="has-dropdown has-dropdown--ul-left-100">
-
                                         <a>Home<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
                                         <!--====== Dropdown ======-->
 
                                         <span class="js-menu-toggle"></span>
+                                        
                                         <ul style="width:118px">
                                             <li>
-
                                                 <a href="index.html">Home 1</a>
                                             </li>
                                             <li>
-
                                                 <a href="index-2.html">Home 2</a>
                                             </li>
                                             <li>
-
                                                 <a href="index-3.html">Home 3</a>
                                             </li>
                                         </ul>
                                         <!--====== End - Dropdown ======-->
                                     </li>
                                     <li class="has-dropdown has-dropdown--ul-left-100">
-
                                         <a>Account<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
                                         <!--====== Dropdown ======-->
 
                                         <span class="js-menu-toggle"></span>
+                                        
                                         <ul style="width:200px">
                                             <li>
-
                                                 <a href="signin.html">Signin / Already Registered</a>
                                             </li>
                                             <li>
-
                                                 <a href="signup.html">Signup / Register</a>
                                             </li>
                                             <li>
-
                                                 <a href="lost-password.html">Lost Password</a>
                                             </li>
                                         </ul>
                                         <!--====== End - Dropdown ======-->
                                     </li>
                                     <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                        <a href="dashboard.html">Dashboard<i
-                                                class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+                                        <a href="dashboard.html">
+                                            Dashboard
+                                            <i class="fas fa-angle-down i-state-right u-s-m-l-6"></i>
+                                        </a>
 
                                         <!--====== Dropdown ======-->
 
@@ -1206,23 +1202,22 @@
                                         <ul style="width:200px">
                                             <li class="has-dropdown has-dropdown--ul-left-100">
 
-                                                <a href="dashboard.html">Manage My Account<i
-                                                        class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+                                                <a href="dashboard.html">
+                                                    Manage My Account
+                                                    <i class="fas fa-angle-down i-state-right u-s-m-l-6"></i>
+                                                </a>
 
                                                 <!--====== Dropdown ======-->
 
                                                 <span class="js-menu-toggle"></span>
                                                 <ul style="width:180px">
                                                     <li>
-
                                                         <a href="dash-edit-profile.html">Edit Profile</a>
                                                     </li>
                                                     <li>
-
                                                         <a href="dash-address-book.html">Edit Address Book</a>
                                                     </li>
                                                     <li>
-
                                                         <a href="dash-manage-order.html">Manage Order</a>
                                                     </li>
                                                 </ul>
@@ -1461,7 +1456,7 @@
                     <button class="btn btn--icon toggle-button fas fa-shopping-bag toggle-button-shop"
                         type="button"></button>
 
-                    <span class="total-item-round">2</span>
+                    <span class="total-item-round">{{order.get_cart_items}}</span>
 
                     <!--====== Menu ======-->
                     <div class="ah-lg-mode">
@@ -1472,158 +1467,75 @@
                         <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
                             <li>
 
-                                <a href="{% url 'live-view' username %}"><i class="fas fa-home"></i></a>
+                                <a href="{% url 'live-view' secret %}"><i class="fas fa-home"></i></a>
                             </li>
                             <li>
 
-                                <a href="{% url 'live-view' username %}"><i class="far fa-heart"></i></a>
+                                <a href="{% url 'live-view' secret %}"><i class="far fa-heart"></i></a>
                             </li>
                             <li class="has-dropdown">
 
-                                <a class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i>
-
-                                    <span class="total-item-round">2</span></a>
+                                <a class="mini-cart-shop-link">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span class="total-item-round">{% if order.get_cart_items %} {{order.get_cart_items}} {% else %} 0 {% endif %} </span>
+                                </a>
 
                                 <!--====== Dropdown ======-->
 
                                 <span class="js-menu-toggle"></span>
+                                {% if request.user.is_authenticated and order.get_cart_items %}
                                 <div class="mini-cart">
 
                                     <!--====== Mini Product Container ======-->
                                     <div class="mini-product-container gl-scroll u-s-m-b-15">
-
+                                        {% for item in items %}
                                         <!--====== Card for mini cart ======-->
                                         <div class="card-mini-product">
                                             <div class="mini-product">
                                                 <div class="mini-product__image-wrapper">
-
-                                                    <a class="mini-product__link" href="product-detail.html">
-
-                                                        <img class="u-img-fluid"
-                                                            src="{% static username|get_static_path:path|add:'/images/product/electronic/product3.jpg' %}"
-                                                            alt=""></a>
+                                                    {% if item.product.has_multiple_variants %}
+                                                        <a href="{% url 'product-details-view' secret item.product.id %}?{{item.variant.option1_name}}={{item.variant.option1_value}}{% if item.variant.option2_name != None %}&{{item.variant.option2_name}}={{item.variant.option2_value}}{% endif %}{% if item.variant.option3_name != None %}&{{item.variant.option3_name}}={{item.variant.option3_value}}{% endif %}">
+                                                            <img class="u-img-fluid"
+                                                            src="{{item.variant.featured_image.image.url}}" alt={{item.product.title}} style="width:98px;height:98px;object-fit:contain;">
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{% url 'product-details-view' secret item.product.id %}">
+                                                            <img class="u-img-fluid"
+                                                            src="{{item.product.featured_image.image.url}}" alt={{item.product.title}} style="width:98px;height:98px;object-fit:contain;">
+                                                        </a>
+                                                    {% endif %}
                                                 </div>
                                                 <div class="mini-product__info-wrapper">
-
-                                                    <span class="mini-product__category">
-
-                                                        <a
-                                                            href="shop-side-version-2.html">Electronics</a></span>
+                                                    <div style="display:flex;gap:6px;">
+                                                        {% for category in item.product.sub_categories.all %}
+                                                            <span class="mini-product__category" style="background-color: #f6f6f6;padding: 3px 8px;border-radius: 12px;">
+                                                                <a href="shop-side-version-2.html">{{category.name}}</a>
+                                                            </span>
+                                                        {% endfor %}
+                                                    </div>
 
                                                     <span class="mini-product__name">
+                                                        {% if item.product.has_multiple_variants %}
+                                                            <a href="{% url 'product-details-view' secret item.product.id %}?{{item.variant.option1_name}}={{item.variant.option1_value}}{% if item.variant.option2_name != None %}&{{item.variant.option2_name}}={{item.variant.option2_value}}{% endif %}{% if item.variant.option3_name != None %}&{{item.variant.option3_name}}={{item.variant.option3_value}}{% endif %}">
+                                                                {{item.product.title}}
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="{% url 'product-details-view' secret item.product.id %}">
+                                                                {{item.product.title}}
+                                                            </a>
+                                                        {% endif %}
+                                                    </span>
 
-                                                        <a href="product-detail.html">Yellow Wireless
-                                                            Headphone</a></span>
+                                                    <span class="mini-product__quantity">{{item.quantity}} x</span>
 
-                                                    <span class="mini-product__quantity">1 x</span>
-
-                                                    <span class="mini-product__price">$8</span>
+                                                    <span class="mini-product__price">{{username|get_formated_price:item.price}}</span>
                                                 </div>
                                             </div>
 
-                                            <a class="mini-product__delete-link far fa-trash-alt"></a>
+                                            <span class="mini-product__delete-link far fa-trash-alt remove-cart-item-btn cursor-pointer" data-product="{{item.product.id}}" data-variant="{{item.variant.id}}" ></span>
                                         </div>
                                         <!--====== End - Card for mini cart ======-->
-
-
-                                        <!--====== Card for mini cart ======-->
-                                        <div class="card-mini-product">
-                                            <div class="mini-product">
-                                                <div class="mini-product__image-wrapper">
-
-                                                    <a class="mini-product__link" href="product-detail.html">
-
-                                                        <img class="u-img-fluid"
-                                                            src="{% static username|get_static_path:path|add:'/images/product/electronic/product18.jpg' %}"
-                                                            alt=""></a>
-                                                </div>
-                                                <div class="mini-product__info-wrapper">
-
-                                                    <span class="mini-product__category">
-
-                                                        <a
-                                                            href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="mini-product__name">
-
-                                                        <a href="product-detail.html">Nikon DSLR Camera
-                                                            4k</a></span>
-
-                                                    <span class="mini-product__quantity">1 x</span>
-
-                                                    <span class="mini-product__price">$8</span>
-                                                </div>
-                                            </div>
-
-                                            <a class="mini-product__delete-link far fa-trash-alt"></a>
-                                        </div>
-                                        <!--====== End - Card for mini cart ======-->
-
-
-                                        <!--====== Card for mini cart ======-->
-                                        <div class="card-mini-product">
-                                            <div class="mini-product">
-                                                <div class="mini-product__image-wrapper">
-
-                                                    <a class="mini-product__link" href="product-detail.html">
-
-                                                        <img class="u-img-fluid"
-                                                            src="{% static username|get_static_path:path|add:'/images/product/women/product8.jpg' %}" alt=""></a>
-                                                </div>
-                                                <div class="mini-product__info-wrapper">
-
-                                                    <span class="mini-product__category">
-
-                                                        <a href="shop-side-version-2.html">Women
-                                                            Clothing</a></span>
-
-                                                    <span class="mini-product__name">
-
-                                                        <a href="product-detail.html">New Dress D Nice
-                                                            Elegant</a></span>
-
-                                                    <span class="mini-product__quantity">1 x</span>
-
-                                                    <span class="mini-product__price">$8</span>
-                                                </div>
-                                            </div>
-
-                                            <a class="mini-product__delete-link far fa-trash-alt"></a>
-                                        </div>
-                                        <!--====== End - Card for mini cart ======-->
-
-
-                                        <!--====== Card for mini cart ======-->
-                                        <div class="card-mini-product">
-                                            <div class="mini-product">
-                                                <div class="mini-product__image-wrapper">
-
-                                                    <a class="mini-product__link" href="product-detail.html">
-
-                                                        <img class="u-img-fluid"
-                                                            src="{% static username|get_static_path:path|add:'/images/product/men/product8.jpg' %}" alt=""></a>
-                                                </div>
-                                                <div class="mini-product__info-wrapper">
-
-                                                    <span class="mini-product__category">
-
-                                                        <a href="shop-side-version-2.html">Men
-                                                            Clothing</a></span>
-
-                                                    <span class="mini-product__name">
-
-                                                        <a href="product-detail.html">New Fashion D Nice
-                                                            Elegant</a></span>
-
-                                                    <span class="mini-product__quantity">1 x</span>
-
-                                                    <span class="mini-product__price">$8</span>
-                                                </div>
-                                            </div>
-
-                                            <a class="mini-product__delete-link far fa-trash-alt"></a>
-                                        </div>
-                                        <!--====== End - Card for mini cart ======-->
+                                        {% endfor %}
                                     </div>
                                     <!--====== End - Mini Product Container ======-->
 
@@ -1634,19 +1546,20 @@
 
                                             <span class="subtotal-text">SUBTOTAL</span>
 
-                                            <span class="subtotal-value">$16</span>
+                                            <span class="subtotal-value">{{username|get_formated_price:order.get_cart_total}}</span>
                                         </div>
                                         <div class="mini-action">
 
-                                            <a class="mini-link btn--e-brand-b-2" href="{% url 'checkout-template' username %}">PROCEED
+                                            <a class="mini-link btn--e-brand-b-2" href="{% url 'checkout-template' secret %}">PROCEED
                                                 TO CHECKOUT</a>
 
                                             <a class="mini-link btn--e-transparent-secondary-b-2"
-                                                href="{% url 'cart-template' username %}">VIEW CART</a>
+                                                href="{% url 'cart-view' secret %}">VIEW CART</a>
                                         </div>
                                     </div>
                                     <!--====== End - Mini Product Statistics ======-->
                                 </div>
+                                {% endif %}
                                 <!--====== End - Dropdown ======-->
                             </li>
                         </ul>
@@ -1660,5 +1573,17 @@
         </div>
     </nav>
     <!--====== End - Nav 2 ======-->
+
+            {% if messages %}
+                {% for message in messages %} 
+                    <div class="alert-message alert-{{message.tags}}" id="alert-message">
+                        {{message}} 
+                        &nbsp;
+                        <i class="fas fa-times cursor-pointer" onclick="document.getElementById('alert-message').classList.add('d-none')"></i>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        
+    </div>
 </header>
 <!--====== End - Main Header ======-->

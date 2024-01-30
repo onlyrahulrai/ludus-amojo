@@ -17,11 +17,12 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a>
+                                <a href="{% url 'live-view' secret %}">Home</a>
                             </li>
                             <li class="is-marked">
-
-                                <a href="dash-cancellation.html">My Account</a>
+                                <a href="{% url 'cancellation-view' secret %}">
+                                    My Returns & Cancellations
+                                </a>
                             </li>
                         </ul>
                     </div>
