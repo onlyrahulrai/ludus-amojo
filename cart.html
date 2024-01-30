@@ -18,7 +18,7 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a>
+                                <a href="{% url 'live-view' secret %}">Home</a>
                             </li>
                             <li class="is-marked">
 
@@ -59,191 +59,90 @@
                         <div class="table-responsive">
                             <table class="table-p">
                                 <tbody>
-
+                                    {% for item in items %}
                                     <!--====== Row ======-->
                                     <tr>
                                         <td>
                                             <div class="table-p__box">
-                                                <div class="table-p__img-wrap">
-
-                                                    <img class="u-img-fluid"
-                                                        src="{% static username|get_static_path:path|add:'/images/product/electronic/product3.jpg' %}" alt="">
+                                                <div class="table-p__img-wrap" style="display:flex;align-items:center;">
+                                                    {% if item.product.has_multiple_variants %}
+                                                        <a href="{% url 'product-details-view' secret item.product.id %}?{{item.product.default_variant.option1_name}}={{item.product.default_variant.option1_value}}{% if item.product.default_variant.option2_name != None %}&{{item.product.default_variant.option2_name}}={{item.product.default_variant.option2_value}}{% endif %}{% if item.product.default_variant.option3_name != None %}&{{item.product.default_variant.option3_name}}={{item.product.default_variant.option3_value}}{% endif %}">
+                                                            <img class="u-img-fluid"
+                                                            src="{{item.variant.featured_image.image.url}}" alt={{item.product.title}} style="width:98px;height:98px;object-fit:contain;">
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{% url 'product-details-view' secret item.product.id %}">
+                                                            <img class="u-img-fluid"
+                                                            src="{{item.product.featured_image.image.url}}" alt={{item.product.title}} style="width:98px;height:98px;object-fit:contain;">
+                                                        </a>
+                                                    {% endif %}
                                                 </div>
                                                 <div class="table-p__info">
 
                                                     <span class="table-p__name">
+                                                        {% if item.product.has_multiple_variants %}
+                                                            <a href="{% url 'product-details-view' secret item.product.id %}?{{item.product.default_variant.option1_name}}={{item.product.default_variant.option1_value}}{% if item.product.default_variant.option2_name != None %}&{{item.product.default_variant.option2_name}}={{item.product.default_variant.option2_value}}{% endif %}{% if item.product.default_variant.option3_name != None %}&{{item.product.default_variant.option3_name}}={{item.product.default_variant.option3_value}}{% endif %}">
+                                                                {{item.product.title}}
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="{% url 'product-details-view' secret item.product.id %}">
+                                                                {{item.product.title}}
+                                                            </a>
+                                                        {% endif %}
+                                                    </span>
 
-                                                        <a href="product-detail.html">Yellow Wireless
-                                                            Headphone</a></span>
+                                                    {% for category in item.product.sub_categories.all %}
+                                                        <span class="table-p__category" style="background-color: #f6f6f6;border-radius: 16px;display:inline-flex;">
+                                                            <a href="shop-side-version-2.html" style="padding: 3px 6px;">{{category.name}}</a>
+                                                        </span>
+                                                    {% endfor %}
 
-                                                    <span class="table-p__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
                                                     <ul class="table-p__variant-list">
+                                                        {% if item.variant.option1_name %}
                                                         <li>
-
-                                                            <span>Size: 22</span>
+                                                            <span>{{item.variant.option1_name}}: {{item.variant.option1_value}}</span>
                                                         </li>
+                                                        {% endif %}
+                                                        {% if item.variant.option2_name %}
                                                         <li>
-
-                                                            <span>Color: Red</span>
+                                                            <span>{{item.variant.option2_name}}: {{item.variant.option2_value}}</span>
                                                         </li>
+                                                        {% endif %}
+
+                                                        {% if item.variant.option3_name %}
+                                                        <li>
+                                                            <span>{{item.variant.option3_name}}: {{item.variant.option3_value}}</span>
+                                                        </li>
+                                                        {% endif %}
                                                     </ul>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-
-                                            <span class="table-p__price">$125.00</span>
+                                            <span class="table-p__price">{{username|get_formated_price:item.price}}</span>
                                         </td>
                                         <td>
                                             <div class="table-p__input-counter-wrap">
-
                                                 <!--====== Input Counter ======-->
                                                 <div class="input-counter">
+                                                    <span class="input-counter__minus fas fa-minus change-quantity-btn" data-product="{{item.product.id}}" data-variant="{{item.variant.id}}" data-action="remove" ></span>
 
-                                                    <span class="input-counter__minus fas fa-minus"></span>
+                                                    <input class="input-counter__text input-counter--text-primary-style product-quantity"
+                                                        type="text" value="1" data-product={{item.product.id}} data-variant={{item.variant.id}}>
 
-                                                    <input class="input-counter__text input-counter--text-primary-style"
-                                                        type="text" value="1" data-min="1" data-max="1000">
-
-                                                    <span class="input-counter__plus fas fa-plus"></span>
+                                                    <span class="input-counter__plus fas fa-plus change-quantity-btn" data-product="{{item.product.id}}" data-variant="{{item.variant.id}}" data-action="add"></span>
                                                 </div>
                                                 <!--====== End - Input Counter ======-->
                                             </div>
                                         </td>
                                         <td>
                                             <div class="table-p__del-wrap">
-
-                                                <a class="far fa-trash-alt table-p__delete-link" href="#"></a>
+                                                <span class="far fa-trash-alt table-p__delete-link remove-cart-item-btn cursor-pointer" data-product="{{item.product.id}}" data-variant="{{item.variant.id}}"></span>
                                             </div>
                                         </td>
                                     </tr>
                                     <!--====== End - Row ======-->
-
-
-                                    <!--====== Row ======-->
-                                    <tr>
-                                        <td>
-                                            <div class="table-p__box">
-                                                <div class="table-p__img-wrap">
-
-                                                    <img class="u-img-fluid" src="{% static username|get_static_path:path|add:'/images/product/women/product8.jpg' %}"
-                                                        alt="">
-                                                </div>
-                                                <div class="table-p__info">
-
-                                                    <span class="table-p__name">
-
-                                                        <a href="product-detail.html">New Dress D Nice
-                                                            Elegant</a></span>
-
-                                                    <span class="table-p__category">
-
-                                                        <a href="shop-side-version-2.html">Women Clothing</a></span>
-                                                    <ul class="table-p__variant-list">
-                                                        <li>
-
-                                                            <span>Size: 22</span>
-                                                        </li>
-                                                        <li>
-
-                                                            <span>Color: Red</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-
-                                            <span class="table-p__price">$125.00</span>
-                                        </td>
-                                        <td>
-                                            <div class="table-p__input-counter-wrap">
-
-                                                <!--====== Input Counter ======-->
-                                                <div class="input-counter">
-
-                                                    <span class="input-counter__minus fas fa-minus"></span>
-
-                                                    <input class="input-counter__text input-counter--text-primary-style"
-                                                        type="text" value="1" data-min="1" data-max="1000">
-
-                                                    <span class="input-counter__plus fas fa-plus"></span>
-                                                </div>
-                                                <!--====== End - Input Counter ======-->
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="table-p__del-wrap">
-
-                                                <a class="far fa-trash-alt table-p__delete-link" href="#"></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!--====== End - Row ======-->
-
-
-                                    <!--====== Row ======-->
-                                    <tr>
-                                        <td>
-                                            <div class="table-p__box">
-                                                <div class="table-p__img-wrap">
-
-                                                    <img class="u-img-fluid" src="{% static username|get_static_path:path|add:'/images/product/men/product9.jpg' %}"
-                                                        alt="">
-                                                </div>
-                                                <div class="table-p__info">
-
-                                                    <span class="table-p__name">
-
-                                                        <a href="product-detail.html">New Fashion D Nice
-                                                            Elegant</a></span>
-
-                                                    <span class="table-p__category">
-
-                                                        <a href="shop-side-version-2.html">Men Clothing</a></span>
-                                                    <ul class="table-p__variant-list">
-                                                        <li>
-
-                                                            <span>Size: 22</span>
-                                                        </li>
-                                                        <li>
-
-                                                            <span>Color: Red</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-
-                                            <span class="table-p__price">$125.00</span>
-                                        </td>
-                                        <td>
-                                            <div class="table-p__input-counter-wrap">
-
-                                                <!--====== Input Counter ======-->
-                                                <div class="input-counter">
-
-                                                    <span class="input-counter__minus fas fa-minus"></span>
-
-                                                    <input class="input-counter__text input-counter--text-primary-style"
-                                                        type="text" value="1" data-min="1" data-max="1000">
-
-                                                    <span class="input-counter__plus fas fa-plus"></span>
-                                                </div>
-                                                <!--====== End - Input Counter ======-->
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="table-p__del-wrap">
-
-                                                <a class="far fa-trash-alt table-p__delete-link" href="#"></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!--====== End - Row ======-->
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -252,20 +151,16 @@
                         <div class="route-box">
                             <div class="route-box__g1">
 
-                                <a class="route-box__link" href="shop-side-version-2.html"><i
-                                        class="fas fa-long-arrow-alt-left"></i>
-
-                                    <span>CONTINUE SHOPPING</span></a>
+                                <a class="route-box__link" href="{% url "live-view" secret %}">
+                                    <i class="fas fa-long-arrow-alt-left"></i>
+                                    <span>CONTINUE SHOPPING</span>
+                                </a>
                             </div>
                             <div class="route-box__g2">
-
-                                <a class="route-box__link" href="cart.html"><i class="fas fa-trash"></i>
-
-                                    <span>CLEAR CART</span></a>
-
-                                <a class="route-box__link" href="cart.html"><i class="fas fa-sync"></i>
-
-                                    <span>UPDATE CART</span></a>
+                                <div class="route-box__link cursor-pointer" onclick="clearCart()" >
+                                    <i class="fas fa-trash"></i>
+                                    <span>CLEAR CART</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -355,28 +250,33 @@
                                             <table class="f-cart__table">
                                                 <tbody>
                                                     <tr>
-                                                        <td>SHIPPING</td>
-                                                        <td>$4.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>TAX</td>
-                                                        <td>$0.00</td>
-                                                    </tr>
-                                                    <tr>
                                                         <td>SUBTOTAL</td>
-                                                        <td>$379.00</td>
+                                                        <td>{{username|get_formated_price:order.get_cart_subtotal}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>GRAND TOTAL</td>
-                                                        <td>$379.00</td>
+                                                        <td>EXTRA DISCOUNT</td>
+                                                        <td>{{username|get_formated_price:order.get_cart_extra_discount}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>TAXABLE AMOUNT</td>
+                                                        <td>{{username|get_formated_price:order.get_cart_taxable_amount}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>TAX AMOUNT</td>
+                                                        <td>{{username|get_formated_price:order.get_cart_tax_amount}}</td>
+                                                    </tr>
+                                                    <tr style="border-top:2px solid;">
+                                                        <td>Final Price</td>
+                                                        <td>{{username|get_formated_price:order.get_cart_total}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div>
 
-                                            <button class="btn btn--e-brand-b-2" type="submit"> PROCEED TO
-                                                CHECKOUT</button>
+
+                                            <a class="btn btn--e-brand-b-2 d-block text-center" href="{% url "checkout-template" secret %}"> PROCEED TO
+                                                CHECKOUT</a>
                                         </div>
                                     </div>
                                 </div>

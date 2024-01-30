@@ -1,19 +1,125 @@
+.alert-message {
+    position: absolute;
+    z-index: 1;
+    padding: 8px 12px;
+    top: 33%;
+    animation-name: alert;
+    animation-duration: 4s;
+    right: 0;
+    color: #fff;
+}
+
+.alert-success{
+    background-color: #D1E7DD;
+}
+
+.alert-warning{
+    background-color: #FFC107;
+}
+
+.alert-error{
+    background-color: #dc3545;
+}
+
+@keyframes alert {
+    from {
+        right: -300px
+    }
+
+    to {
+        right: 0;
+    }
+}
+
+.position-relative{
+    position: relative !important;
+}
+
+.overflow-hidden{
+    overflow: hidden !important;
+}
+
+.d-none{
+    display: none !important;
+}
+
+.d-flex{
+    display:flex !important;
+}
+
+.d-block{
+    display:block !important;
+}
+
 .text-center{
     text-align:center !important;
 }
 
-.d-flex{
-    display: flex !important;
+.cursor-pointer{
+    cursor: pointer !important;
+}
+
+
+
+.d-inline-flex{
+    display:inline-flex !important;
 }
 
 .align-items-center{
-    align-items: center !important;
+    align-items:center !important;
 }
 
-.flex-column{
-    flex-direction:column !important;
+.gap-3{
+    gap:3px !important;
 }
 
-.border{
-    border: 1px solid;
+.variant-active{
+    border:2px solid blue !important;
+}
+
+.pt-4{
+    padding-top:8px;
+}
+
+.ml-54:not(:first-child){
+    margin-left:-54px !important;
+}
+
+.ml-54:last-child{
+    /* margin-right: 24px !important; */
+}
+
+.awaiting_approval{
+    background:orange !important;
+    color: white !important;
+}
+
+.approved{
+    background:#00cfe8 !important;
+    color: white !important;
+}
+
+.processed{
+    background:#7367f0 !important;
+    color: white !important;
+}
+
+.cancelled{
+    background: tomato !important;
+    color: white !important;
+}
+
+.dispatched{
+    background-color: #ff9f43 !important;
+    color: white !important;
+}
+
+.delivered{
+    background-color: #28c76f !important;
+    color: white !important;
+}
+
+.returned{
+    background-color: #ea5455 !important;
+    color: white !important;
 }

@@ -17,7 +17,7 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a></li>
+                                <a href="{% url 'live-view' secret %}">Home</a></li>
                             <li class="is-marked">
 
                                 <a href="signup.html">Signup</a></li>
@@ -106,7 +106,7 @@
                                     <div class="u-s-m-b-15">
                                         <button class="btn btn--e-transparent-brand-b-2" type="submit">CREATE</button>
                                     </div>
-                                    <a class="gl-link" href="{% url 'live-view' username %}">Return to Store</a>
+                                    <a class="gl-link" href="{% url 'live-view' secret %}">Return to Store</a>
                                 </form>
                             </div>
                         </div>
