@@ -45,40 +45,48 @@
                             <div class="o-summary">
                                 <div class="o-summary__section u-s-m-b-30" style="border-width:0;">
                                     <div class="o-summary__item-wrap gl-scroll" style="padding:0 17px;min-height:512px;">
-                                        {% for orderitem in order_details.items.all %}
-                                        <div class="o-card">
-                                            <div class="o-card__flex">
-                                                <div class="o-card__img-wrap">
-                                                    {% if orderitem.product_variant.product.has_multiple_variants %}
-                                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}?{{orderitem.product_variant.option1_name}}={{orderitem.product_variant.option1_value}}{% if orderitem.product_variant.option2_name != None %}&{{orderitem.product_variant.option2_name}}={{orderitem.product_variant.option2_value}}{% endif %}{% if orderitem.product_variant.option3_name != None %}&{{orderitem.product_variant.option3_name}}={{orderitem.product_variant.option3_value}}{% endif %}">
-                                                            <img class="aspect__img" src="{{orderitem.product_variant.featured_image.image.url}}" alt="">
-                                                        </a>
-                                                    {% else %}
-                                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}">
-                                                            <img class="aspect__img" src="{{orderitem.product_variant.product.featured_image.image.url}}" alt="">
-                                                        </a>
-                                                    {% endif %}
-                                                </div>
-                                                <div class="o-card__info-wrap">
-                                                    <span class="o-card__name">
-                                                        {% if orderitem.product_variant.product.has_multiple_variants %}
-                                                            <a href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}?{{orderitem.product_variant.option1_name}}={{orderitem.product_variant.option1_value}}{% if orderitem.product_variant.option2_name != None %}&{{orderitem.product_variant.option2_name}}={{orderitem.product_variant.option2_value}}{% endif %}{% if orderitem.product_variant.option3_name != None %}&{{orderitem.product_variant.option3_name}}={{orderitem.product_variant.option3_value}}{% endif %}">
-                                                                {{orderitem.product_variant.product.title}}
-                                                            </a>
-                                                        {% else %}
-                                                            <a href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}">
-                                                                {{orderitem.product_variant.product.title}}
-                                                            </a>
-                                                        {% endif %} 
-                                                    </span>
+                                        {% for status in statusGroupedItems %}
+                                            <div class="u-s-m-b-14" >
+                                                <div style="border:1px solid #f5f5f5;padding:6px;">
+                                                    <span class="{{status}}" style="padding:6px 10px;display:inline-flex;border-radius:24px;">{{status|get_status}}</span>
+                                                </div>     
 
-                                                    <span class="o-card__quantity">Quantity x {{orderitem.quantity}}</span> 
-
-                                                    <span
-                                                        class="o-card__price">{{username|get_formated_price:orderitem.price}}</span>
-                                                </div> 
-                                            </div> 
-                                        </div>
+                                                {% for orderitem in statusGroupedItems|get_item:status %}
+                                                    <div class="o-card" style="margin:unset;">
+                                                        <div class="o-card__flex">
+                                                            <div class="o-card__img-wrap">
+                                                                {% if orderitem.product_variant.product.has_multiple_variants %}
+                                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}?{{orderitem.product_variant.option1_name}}={{orderitem.product_variant.option1_value}}{% if orderitem.product_variant.option2_name != None %}&{{orderitem.product_variant.option2_name}}={{orderitem.product_variant.option2_value}}{% endif %}{% if orderitem.product_variant.option3_name != None %}&{{orderitem.product_variant.option3_name}}={{orderitem.product_variant.option3_value}}{% endif %}">
+                                                                        <img class="aspect__img" src="{{orderitem.product_variant.featured_image.image.url}}" alt="">
+                                                                    </a>
+                                                                {% else %}
+                                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}">
+                                                                        <img class="aspect__img" src="{{orderitem.product_variant.product.featured_image.image.url}}" alt="">
+                                                                    </a>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="o-card__info-wrap">
+                                                                <span class="o-card__name">
+                                                                    {% if orderitem.product_variant.product.has_multiple_variants %}
+                                                                        <a href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}?{{orderitem.product_variant.option1_name}}={{orderitem.product_variant.option1_value}}{% if orderitem.product_variant.option2_name != None %}&{{orderitem.product_variant.option2_name}}={{orderitem.product_variant.option2_value}}{% endif %}{% if orderitem.product_variant.option3_name != None %}&{{orderitem.product_variant.option3_name}}={{orderitem.product_variant.option3_value}}{% endif %}">
+                                                                            {{orderitem.product_variant.product.title}}
+                                                                        </a>
+                                                                    {% else %}
+                                                                        <a href="{% url 'product-details-view' secret orderitem.product_variant.product.id %}">
+                                                                            {{orderitem.product_variant.product.title}}
+                                                                        </a>
+                                                                    {% endif %} 
+                                                                </span>
+            
+                                                                <span class="o-card__quantity">Quantity x {{orderitem.quantity}}</span> 
+            
+                                                                <span
+                                                                    class="o-card__price">{{username|get_formated_price:orderitem.price}}</span>
+                                                            </div> 
+                                                        </div> 
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -89,7 +97,7 @@
                             <div class="o-summary">
                                 <div class="o-summary__section u-s-m-b-30">
                                     <div class="o-summary__box">
-                                        <div class="u-s-m-b-14" style="display:flex;justify-content:space-between;">
+                                        <div style="display:flex;justify-content:space-between;">
                                             <div class="ship-b">
                                                 <strong class="ship-b__text">Order ID</strong>
                                                 
@@ -102,13 +110,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="ship-b">
+                                        {% comment %} <div class="ship-b">
                                             <strong class="ship-b__text u-s-m-b-14">Status</strong>
 
                                             {% for status in order_details.get_item_statuses %}
                                                 <span class="manage-o__badge {{status}}" style="width:unset;">{{status|get_status}}</span>
                                             {% endfor %}
-                                        </div>
+                                        </div> {% endcomment %}
                                     </div>
                                 </div>
 

@@ -66,7 +66,7 @@
                                             <div class="table-p__box">
                                                 <div class="table-p__img-wrap" style="display:flex;align-items:center;">
                                                     {% if item.product.has_multiple_variants %}
-                                                        <a href="{% url 'product-details-view' secret item.product.id %}?{{item.product.default_variant.option1_name}}={{item.product.default_variant.option1_value}}{% if item.product.default_variant.option2_name != None %}&{{item.product.default_variant.option2_name}}={{item.product.default_variant.option2_value}}{% endif %}{% if item.product.default_variant.option3_name != None %}&{{item.product.default_variant.option3_name}}={{item.product.default_variant.option3_value}}{% endif %}">
+                                                        <a href="{% url 'product-details-view' secret item.product.id %}?{{item.variant.option1_name}}={{item.variant.option1_value}}{% if item.variant.option2_name != None %}&{{item.variant.option2_name}}={{item.variant.option2_value}}{% endif %}{% if item.variant.option3_name != None %}&{{item.variant.option3_name}}={{item.variant.option3_value}}{% endif %}">
                                                             <img class="u-img-fluid"
                                                             src="{{item.variant.featured_image.image.url}}" alt={{item.product.title}} style="width:98px;height:98px;object-fit:contain;">
                                                         </a>
@@ -81,7 +81,7 @@
 
                                                     <span class="table-p__name">
                                                         {% if item.product.has_multiple_variants %}
-                                                            <a href="{% url 'product-details-view' secret item.product.id %}?{{item.product.default_variant.option1_name}}={{item.product.default_variant.option1_value}}{% if item.product.default_variant.option2_name != None %}&{{item.product.default_variant.option2_name}}={{item.product.default_variant.option2_value}}{% endif %}{% if item.product.default_variant.option3_name != None %}&{{item.product.default_variant.option3_name}}={{item.product.default_variant.option3_value}}{% endif %}">
+                                                            <a href="{% url 'product-details-view' secret item.product.id %}?{{item.variant.option1_name}}={{item.variant.option1_value}}{% if item.variant.option2_name != None %}&{{item.variant.option2_name}}={{item.variant.option2_value}}{% endif %}{% if item.variant.option3_name != None %}&{{item.variant.option3_name}}={{item.variant.option3_value}}{% endif %}">
                                                                 {{item.product.title}}
                                                             </a>
                                                         {% else %}
