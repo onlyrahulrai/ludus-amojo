@@ -112,7 +112,7 @@
                                         <div class="col-lg-4 u-s-m-b-30">
                                             <h2 class="dash__h2 u-s-m-b-8">Phone</h2>
                                             {% if user.mobile_number %}
-                                                <span class="dash__text">+91-{{user.mobile_number}}</span>
+                                                <span class="dash__text">{{user.mobile_number}}</span>
                                             {% endif %}
 
                                             <div class="dash__link dash__link--secondary">
@@ -144,7 +144,7 @@
 
                                             <div class="u-s-m-b-16">
                                                 <a class="dash__custom-link btn--e-transparent-brand-b-2"
-                                                    href="dash-edit-profile.html">
+                                                    data-modal="modal" data-modal-id="#add-ship-address" data-dismiss="modal">
                                                     Edit Profile
                                                 </a>
                                             </div>
@@ -168,5 +168,64 @@
     <!--====== End - Section 2 ======-->
 </div>
 <!--====== End - App Content ======-->
+
+<!--====== Shipping Address Add Modal ======-->
+<div class="modal fade" id="add-ship-address">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="checkout-modal1">
+                    <div class="u-s-m-b-30">
+                        <div class="dash-l-r">
+                            <h1 class="dash__h1 ">Edit Your Profile</h1>
+
+                            <div class="dash__link dash__link--brand">
+                                <a data-dismiss="modal">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <span class="dash__text u-s-m-b-30 u-s-m-t-10">Looks like you haven't update your profile</span>
+                    </div>
+                    <form class="dash-edit-p" method="POST">
+                        {% csrf_token %}
+                        <div class="gl-inline">
+                            <div class="u-s-m-b-30">
+                                <label class="gl-label" for="reg-fname">FIRST NAME *</label>
+
+                                {{form.first_name}}
+                            </div>
+                            <div class="u-s-m-b-30">
+
+                                <label class="gl-label" for="reg-lname">LAST NAME *</label>
+
+                                {{form.last_name}}
+                            </div>
+                        </div>
+                        <div class="gl-inline">
+                            <div class="u-s-m-b-30">
+                                <label class="gl-label" for="reg-fname">USERNAME *</label>
+
+                                {{form.username}}
+                            </div>
+                            <div class="u-s-m-b-30">
+                                <label class="gl-label" for="reg-lname">EMAIL *</label>
+
+                                {{form.email}}
+                            </div>
+                            <div class="u-s-m-b-30">
+                                <label class="gl-label" for="reg-lname">MOBILE NUMBER *</label>
+
+                                {{form.mobile_number}}
+                            </div>
+                        </div>
+                        <button class="btn btn--e-brand-b-2" type="submit">SAVE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--====== End - Shipping Address Add Modal ======-->
 
 {% endblock content %}
