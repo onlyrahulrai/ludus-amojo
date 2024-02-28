@@ -239,7 +239,11 @@
                                             </tbody>
                                         </table>
                                         <div>
-                                            <button class="btn btn--e-brand-b-2" id="place-order">PLACE ORDER</button>
+                                            {% if address %}
+                                                <button class="btn btn--e-brand-b-2" id="place-order">PLACE ORDER</button>
+                                            {% else %}
+                                                <button class="btn btn--e-brand-b-2" data-modal="modal" data-modal-id="#add-ship-address" data-dismiss="modal">PLACE ORDER</button>
+                                            {% endif %}
                                         </div>
                                     </div>
 

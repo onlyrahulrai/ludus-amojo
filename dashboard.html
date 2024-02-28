@@ -177,7 +177,7 @@
                                                     <div class="dash__table-img-wrap" style="width:100%;height: unset;display: flex;justify-content: center;background-color: unset;">
                                                         <div style="display:flex;">
                                                             {% for orderitem in order.items.all %}
-                                                                {% if forloop.counter <= 2 %}
+                                                                {% if forloop.counter < 3 %}
                                                                     <div class="description__img-wrap  ml-54" style="width:42px;height:42px;">
                                                                         {% if orderitem.product_variant.product.has_multiple_variants %}
                                                                             <img class="u-img-fluid"
@@ -185,14 +185,17 @@
                                                                         {% else %}
                                                                             <img class="u-img-fluid" src="{{orderitem.product_variant.product.featured_image.image.url}}" alt="" style="width:100%;height:100%;object-fit:cover;min-width:unset;">
                                                                         {% endif %}
-                                                                    </div>
-                                                                {% else %}    
-                                                                    <div style="height:24px;width:24px;border-radius:50%;padding: 2px;display:flex;align-items:center;justify-content:center;" class="{{order.get_item_statuses|first}}">
-                                                                        <span>+{{order.items.all.count|add:"-2"}}</span>
-                                                                    </div>    
-                                                                {% endif %}      
+                                                                    </div>   
+                                                                {% endif %}
                                                             {% endfor %}
+
                                                         </div>
+                                                        {% if order.items.all|length > 2 %}
+                                                            <div style="height:24px;width:24px;border-radius:50%;padding: 2px;display:flex;align-items:center;justify-content:center;
+                                                            margin-top: -8px;" class="{{order.get_item_statuses|first}}">
+                                                                <span>+{{order.items.all.count|add:"-2"}}</span>
+                                                            </div>  
+                                                        {% endif %}
                                                     </div>
                                                 </td>
                                                 <td>
